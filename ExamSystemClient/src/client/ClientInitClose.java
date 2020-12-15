@@ -13,6 +13,14 @@ public class ClientInitClose {
     ObjectOutputStream oos = null;
     ObjectInputStream ois = null;
 
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
     public void clientInit() throws IOException {
         // 创建Socket类型的对象并指定服务器的通信地址和端口号
         s = new Socket(InetAddress.getLocalHost(), 8888);

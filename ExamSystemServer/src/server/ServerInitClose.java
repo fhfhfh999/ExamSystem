@@ -13,6 +13,14 @@ public class ServerInitClose {
     ObjectInputStream ois = null;
     ObjectOutputStream oos = null;
 
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
     public void serverInit() throws IOException {
         //1.创建ServerSocket类型的对象并提供端口号
         ss = new ServerSocket(8888);
