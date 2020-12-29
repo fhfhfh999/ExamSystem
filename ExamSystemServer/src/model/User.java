@@ -38,4 +38,17 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj.getClass() == this.getClass()){
+            User user = (User)obj;
+            if (user.getUserName().equals(userName) && user.getPassword().equals(password)){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
+    }
 }

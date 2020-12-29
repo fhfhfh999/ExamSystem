@@ -39,10 +39,11 @@ public class ClientView {
                     break;
                 case 2:
                     //System.out.println("正在进入管理员系统");
-                    clientManagetrLogin();
+                    clientManagerLogin();
                     break;
                 case 0:
-                    System.out.println("正在退出系统");
+//                    System.out.println("正在退出系统");
+                    clientUserLogin();
                     return;
                 default:
                     System.out.println("输入错误，请重新选择");
@@ -53,7 +54,7 @@ public class ClientView {
     /**
      * 自定义成员方法实现客户端管理员登录
      */
-    private void clientManagetrLogin() throws IOException, ClassNotFoundException {
+    private void clientManagerLogin() throws IOException, ClassNotFoundException {
         // 准备管理员信息
         System.out.println("请输入管理员的账户信息");
         String username = ClientScanner.getScanner().next();
@@ -66,7 +67,27 @@ public class ClientView {
         //接收服务器的处理结果并给出提示
         tum = (UserMessage)cic.getOis().readObject();
         if ("success".equals(tum.getType())){
-            System.out.println("登录成功");
+            System.out.println("管理员登录成功");
+        }else {
+            System.out.println("用户名或密码错误");
+        }
+    }
+
+    private void clientUserLogin() throws IOException, ClassNotFoundException {
+        System.out.println("请输入用户账户信息");
+        String username = ClientScanner.getScanner().next();
+        System.out.println("请输入用户密码");
+        String password = ClientScanner.getScanner().next();
+        UserMessage tum = new UserMessage("userCheck", new User(username, password));
+        // 将用户信息发送给服务器
+        cic.getOos().writeObject(tum);
+        System.out.println("客户端发送用户账户信息");
+        //接收服务器处理结果并给出提示
+        tum = (UserMessage)cic.getOis().readObject();
+        if ("success".equals(tum.getType())){
+            System.out.println("用户登陆成功");
+            UserView userView = new UserView(tum.getUser());
+            userView.startUserPage();
         }else {
             System.out.println("用户名或密码错误");
         }
