@@ -31,10 +31,15 @@ public class ServerInitClose {
         //3.使用输入输出流进行通信
         ois = new ObjectInputStream(s.getInputStream());
         oos = new ObjectOutputStream(s.getOutputStream());
+
+        // UserInfo用于将用户名单储存到本地,使用的输入输出流和以上内容不相同
+        UserInfo.loadUserInfo();
         System.out.println("服务器初始化成功！");
     }
 
     public void serverClose() throws IOException {
+
+        UserInfo.saveUserInfo();
         //4.关闭Socket并释放有关的资源
         oos.close();
         ois.close();

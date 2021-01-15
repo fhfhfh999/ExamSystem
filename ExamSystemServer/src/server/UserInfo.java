@@ -18,9 +18,15 @@ public class UserInfo {
 
     public static void saveUserInfo() {
         ObjectOutputStream oos = null;
+        File file = new File("StudentInfo.txt");
+        if (!file.exists()){
+            file.mkdir();
+        }
         try {
             oos = new ObjectOutputStream(new FileOutputStream("StudentInfo.txt", false));
             oos.writeObject(users);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

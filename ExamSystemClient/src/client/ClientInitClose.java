@@ -9,9 +9,9 @@ import java.net.UnknownHostException;
 
 public class ClientInitClose {
 
-    Socket s = null;
-    ObjectOutputStream oos = null;
-    ObjectInputStream ois = null;
+    private Socket s = null;
+    private ObjectOutputStream oos = null;
+    private ObjectInputStream ois = null;
 
     public ObjectOutputStream getOos() {
         return oos;

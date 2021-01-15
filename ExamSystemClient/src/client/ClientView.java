@@ -36,14 +36,15 @@ public class ClientView {
             switch (choose) {
                 case 1:
                     System.out.println("正在进入学员系统");
+                    clientUserLogin();
                     break;
                 case 2:
                     //System.out.println("正在进入管理员系统");
                     clientManagerLogin();
                     break;
                 case 0:
+                    exit();
 //                    System.out.println("正在退出系统");
-                    clientUserLogin();
                     return;
                 default:
                     System.out.println("输入错误，请重新选择");
@@ -51,12 +52,20 @@ public class ClientView {
         }
     }
 
+    private void exit() throws IOException {
+        System.out.println("退出系统");
+        UserMessage tum = new UserMessage();
+        tum.setType("exit");
+        cic.getOos().writeObject(tum);
+        System.out.println("客户端退出");
+    }
+
     /**
      * 自定义成员方法实现客户端管理员登录
      */
     private void clientManagerLogin() throws IOException, ClassNotFoundException {
         // 准备管理员信息
-        System.out.println("请输入管理员的账户信息");
+        System.out.println("请输入管理员的账号");
         String username = ClientScanner.getScanner().next();
         System.out.println("请输入管理员的密码信息");
         String password = ClientScanner.getScanner().next();
@@ -68,6 +77,8 @@ public class ClientView {
         tum = (UserMessage)cic.getOis().readObject();
         if ("success".equals(tum.getType())){
             System.out.println("管理员登录成功");
+            ManagerView managerView = new ManagerView(tum.getUser(), cic); //进入管理员界面
+            managerView.startManagerPage();
         }else {
             System.out.println("用户名或密码错误");
         }
@@ -86,7 +97,7 @@ public class ClientView {
         tum = (UserMessage)cic.getOis().readObject();
         if ("success".equals(tum.getType())){
             System.out.println("用户登陆成功");
-            UserView userView = new UserView(tum.getUser());
+            UserView userView = new UserView(tum.getUser(), cic);
             userView.startUserPage();
         }else {
             System.out.println("用户名或密码错误");
